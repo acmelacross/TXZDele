@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 if(e==null){
                    ;
                     TXZUsers user = new TXZUsers();
+
                     user.setUsername("23846");
                     user.setPassword("23846");
                     user.setFather( object.get(0));

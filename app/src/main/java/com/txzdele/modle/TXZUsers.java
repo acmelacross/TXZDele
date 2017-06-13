@@ -27,4 +27,13 @@ public class TXZUsers extends BmobUser{
 	public void setFather(TXZUsers father) {
 		this.father = father;
 	}
+	private Integer sales;
+
+	public Integer getSales() {
+		return sales;
+	}
+
+	public void setSales(Integer sales) {
+		this.sales = sales;
+	}
 }
