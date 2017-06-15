@@ -23,6 +23,7 @@ import com.txzdele.R;
 import com.txzdele.modle.TXZUsers;
 import com.txzdele.utils.LogUtil;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -72,8 +73,13 @@ public class LoginActivity extends BaseActivity {
                 attemptLogin();
             }
         });
+        judegeLogin();
     }
-
+    private void judegeLogin(){
+        if (BmobUser.getCurrentUser(TXZUsers.class)!=null){
+            startActivity(new Intent().setClass(LoginActivity.this, MyMainActivity.class));
+        }
+    }
 
 
 
@@ -100,8 +106,67 @@ public class LoginActivity extends BaseActivity {
             passwordTextInput.setError("密码过短");
             return;
         }
-
+        signOrLogin();
         uploadHandler.sendEmptyMessage(0);
+    }
+    private void signOrLogin(){
+        TXZUsers us = new TXZUsers();
+        us.setUsername(email);
+        us.setUserNumber(password);
+        us.setPassword(password);
+        //注意：不能用save方法进行注册
+        LogUtil.d(email+password+"usus："+us);
+
+
+
+        us.signUp(new SaveListener<TXZUsers>() {
+            @Override
+            public void done(TXZUsers s, BmobException e) {
+                if(e==null){
+//                    LogUtil.d("注册数据成功，返回objectId为：");
+//                    startActivity(new Intent().setClass(LoginActivity.this, MyMainActivity.class));
+                    login();
+
+                }else{
+                    LogUtil.d("创建数据失败：" + e.getMessage()+e.getErrorCode());
+                    if (e.getErrorCode() == 202) {
+                        //登陆
+                        login();
+//                                    bu2.login( new SaveListener<TXZUsers>() {
+//                                        @Override
+//                                        public void onSuccess() {
+//                                            LogUtil.d("登陆成功  ：");
+//                                            // TODO Auto-generated method stub
+//                                            //startActivity(new Intent().setClass(getApplicationContext(), IndexActivity.class));//直接跳转
+//                                        }
+//                                        @Override
+//                                        public void onFailure(int code, String msg) {
+//                                            // TODO Auto-generated method stub
+//                                            System.out.println();
+//                                            ToastUtil.show(getApplicationContext(), "登录失败:原因 "+msg+code);
+//                                        }
+//                                    });
+
+                    }
+                }
+            }
+        });
+    }
+    private void login(){
+        TXZUsers bu2 = new TXZUsers();
+        bu2.setUsername(email);
+        bu2.setPassword(password);
+        bu2.login(new SaveListener<TXZUsers>() {
+            @Override
+            public void done(TXZUsers txzUsers, BmobException e) {
+                if(e==null){
+                    LogUtil.d("登陆数据成功，返回objectId为：");
+                    startActivity(new Intent().setClass(LoginActivity.this, MyMainActivity.class));
+                }else {
+                    LogUtil.d("登陆数据失败，："+e.getMessage()+e.getErrorCode());
+                }
+            }
+        });
     }
 
     private boolean isEmailValid(String email) {
@@ -118,53 +183,7 @@ public class LoginActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case 0:
-                    TXZUsers us = new TXZUsers();
-                    us.setUsername(email);
-                    us.setUserNumber(password);
-                    us.setPassword(password);
-                    //注意：不能用save方法进行注册
-                    us.signUp(new SaveListener<TXZUsers>() {
-                        @Override
-                        public void done(TXZUsers s, BmobException e) {
-                            if(e==null){
-                                LogUtil.d("注册数据成功，返回objectId为：");
-                            }else{
-                                LogUtil.d("创建数据失败：" + e.getMessage()+e.getErrorCode());
-                                if (e.getErrorCode() == 202) {
-                                    //登陆
-                                    TXZUsers bu2 = new TXZUsers();
-                                    bu2.setUsername(email);
-                                    bu2.setPassword(password);
-                                    bu2.login(new SaveListener<TXZUsers>() {
-                                        @Override
-                                        public void done(TXZUsers txzUsers, BmobException e) {
-                                            if(e==null){
-                                                LogUtil.d("登陆数据成功，返回objectId为：");
-                                                startActivity(new Intent().setClass(LoginActivity.this, MainActivity.class));
-                                            }else {
-                                                LogUtil.d("登陆数据失败，："+e.getMessage()+e.getErrorCode());
-                                            }
-                                        }
-                                    });
-//                                    bu2.login( new SaveListener<TXZUsers>() {
-//                                        @Override
-//                                        public void onSuccess() {
-//                                            LogUtil.d("登陆成功  ：");
-//                                            // TODO Auto-generated method stub
-//                                            //startActivity(new Intent().setClass(getApplicationContext(), IndexActivity.class));//直接跳转
-//                                        }
-//                                        @Override
-//                                        public void onFailure(int code, String msg) {
-//                                            // TODO Auto-generated method stub
-//                                            System.out.println();
-//                                            ToastUtil.show(getApplicationContext(), "登录失败:原因 "+msg+code);
-//                                        }
-//                                    });
 
-                                }
-                            }
-                        }
-                    });
                     break;
             }
         }
