@@ -1,5 +1,6 @@
 package com.txzdele.modle;
 
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobUser;
 
 /**
@@ -10,7 +11,7 @@ import cn.bmob.v3.BmobUser;
  * Created by coding on 2017/6/13.
  */
 
-public class TXZOrders extends BmobUser {
+public class TXZOrders extends BmobObject{
     private String account;
     private String password;
     private TXZUsers txzuser;

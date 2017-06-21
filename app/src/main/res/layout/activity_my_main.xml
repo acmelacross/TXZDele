@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.txzdele.activity.MyMainActivity">
+    <FrameLayout android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tvTitleMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_font"
+        android:text="@string/title_yeji"
+        android:textSize="20pt"
+        android:layout_margin="10dp"
+        />
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/menu_bottom_navigation_items"/>
+</RelativeLayout>
