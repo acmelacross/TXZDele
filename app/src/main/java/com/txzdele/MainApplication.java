@@ -14,7 +14,7 @@ public class MainApplication extends Application {
     }
 
     private void initAllSDKS() {
-        LogUtil.d("initAllSDKS");
+        //LogUtil.d("initAllSDKS");
         //SMSSDK.initSDK(this, "1b6ff869a9c09", "fbf6bcdfe2edb9b9f404af9dd62c4e2");
         initBmob();
         Config.getInstance().application = this;
